@@ -16,23 +16,23 @@ pipeline {
 	                 }}
 		stage('Deployment'){
 		    steps {
-			sh 'sshpass -p "dev" scp target/LoginWebAppApplicationWith-Docker.war guru@172.17.0.2:/home/guru/slaveDD2/apache-tomcat-9.0.72/webapps'
+			sh 'sshpass -p "dev" scp target/RedHat.war dev@172.17.0.3:/home/dev/apache-tomcat-9.0.73/webapps'
 			}}
 		stage('Docker build'){
 		    steps {
-			sh 'docker build -t swapnilhub/pipelineimage11.1.2 .'
+			sh 'docker build -t pushpak20497/pipelineimage11.1.2 .'
 			}}
 		stage('Docker Login'){
 		    steps {
-		withCredentials([string(credentialsId: 'swapnilhub', variable: 'docker-swapnilhub')]){
-    		sh 'docker login -u swapnilhub -p${docker-swapnilhub}'                 
-			echo 'Login Completed'
+		withCredentials([string(credentialsId: 'pushpak20497', variable: 'Docker-hub')]) {
+			sh 'docker login -u pushpak20497 -p${Docker-hub}'
+}
 			}
 			
 			}}
 		stage('Push Image to Docker Hub') {         
     		    steps{                            
- 			sh 'docker push swapnilhub/pipelineimage11.1.2:$BUILD_NUMBER'           
+ 			sh 'docker push pushpak20497/pipelineimage11.1.2:$BUILD_NUMBER'           
 			echo 'Push Image Completed'       
     			}}
 		
